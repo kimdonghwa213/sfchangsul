@@ -1,0 +1,573 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율실증기업 대상 맞춤형 실증지원 프로그램</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #c8e6c9 100%);
+            padding: 120px 20px 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header .subtitle {
+            font-size: 20px;
+            color: #4caf50;
+        }
+
+        .regions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 0;
+        }
+
+        .region-card {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .region-card:hover {
+            transform: scale(1.02);
+        }
+
+        .region-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        .region-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .region-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .region-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .region-title {
+            font-size: 38px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .region-subtitle {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .region-en {
+            font-size: 14px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 3px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn:hover {
+            background: white;
+            color: #333;
+        }
+
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .calendar-section {
+            background: linear-gradient(to bottom, #f1f8e9 0%, white 100%);
+            padding: 80px 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .calendar-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .calendar-year-month {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .calendar-month {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .calendar-year {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .calendar-icon {
+            font-size: 40px;
+            margin-left: auto;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav button {
+            background: white;
+            color: #666;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .calendar-nav button:hover {
+            background: #f5f5f5;
+        }
+
+        .calendar-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .calendar-grid-wrapper {
+            border: 1px solid #ddd;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .calendar-weekday {
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
+            color: #666;
+            border-right: 1px solid #ddd;
+        }
+
+        .calendar-weekday:last-child {
+            border-right: none;
+        }
+
+        .calendar-weekday.sunday {
+            color: #e53935;
+        }
+
+        .calendar-weekday.saturday {
+            color: #1e88e5;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-auto-rows: 80px;
+        }
+
+        .calendar-day {
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 5px;
+            font-size: 14px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .calendar-day:nth-child(7n) {
+            border-right: none;
+        }
+
+        .calendar-day:hover {
+            background: #f9f9f9;
+        }
+
+        .calendar-day.other-month {
+            background: #fafafa;
+            color: #ccc;
+        }
+
+        .calendar-day.today {
+            background: #e8f5e9;
+        }
+
+        .calendar-day.today .day-number {
+            background: #4caf50;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar-day.sunday {
+            color: #e53935;
+        }
+
+        .calendar-day.saturday {
+            color: #1e88e5;
+        }
+
+        .calendar-day.pest-warning {
+            background: #fff3e0 !important;
+            border: 2px solid #ff9800;
+        }
+
+        .calendar-day.pest-warning::after {
+            content: '⚠️';
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            font-size: 12px;
+        }
+
+        .pest-legend {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+
+        .legend-pest {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+        }
+
+        .calendar-memo {
+            border: 1px solid #ddd;
+            padding: 15px;
+        }
+
+        .calendar-memo h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .memo-line {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 10px 0;
+            min-height: 35px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .regions {
+                grid-template-columns: 1fr;
+            }
+
+            .calendar-section {
+                padding: 40px 20px;
+            }
+
+            .calendar-main {
+                grid-template-columns: 1fr;
+            }
+
+            .calendar-days {
+                grid-auto-rows: 60px;
+            }
+        }
+    </style>
+</head>
+<!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'single_pages/css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'single_pages/bootstrap/bootstrap.min.css' %}" media="screen">
+<body>
+<!-- 네비게이션바 -->
+{% include "single_pages/navbar.html" %}
+<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+{% block content %}
+{% endblock %}
+    <div class="header">
+        <h1>자율실증기업 대상 맞춤형 실증지원 프로그램</h1>
+        <p class="subtitle">with KOAT</p>
+    </div>
+
+    <div class="regions">
+        <div class="region-card" style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.8), rgba(46, 125, 50, 0.9));">
+            <img src="{% static 'single_pages/images/pic1.jpg' %}" alt="온실" class="region-bg">
+            <div class="region-content">
+                <div>
+                    <div class="region-icon">🌱</div>
+                    <div class="region-title">온실정보</div>
+                    <div class="region-en">Green house</div>
+                    <div class="region-en">SMART FARM INNOVATION VALLEY</div>
+                </div>
+                <div>
+                    <div class="buttons">
+                        <a href="/about_me/" class="btn btn-primary">바로가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="region-card" style="background: linear-gradient(135deg, rgba(239, 83, 80, 0.8), rgba(198, 40, 40, 0.9));">
+            <img src="{% static 'single_pages/images/pic2.jpg' %}" class="region-bg">
+            <div class="region-content">
+                <div>
+                    <div class="region-icon">🍓</div>
+                    <div class="region-title">재배 가이드</div>
+                </div>
+                <div>
+                    <div class="buttons">
+                        <a href="http://localhost:8501/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">바로가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="region-card" style="background: linear-gradient(135deg, rgba(66, 165, 245, 0.8), rgba(25, 118, 210, 0.9));">
+            <img src="{% static 'single_pages/images/pic3.jpg' %}" class="region-bg">
+            <div class="region-content">
+                <div>
+                    <div class="region-icon">⛅</div>
+                    <div class="region-title">온실 기상 예측 서비스</div>
+                </div>
+                <div>
+                    <div class="buttons">
+                        <a href="http://localhost:8502/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">바로가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="calendar-section">
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <div class="calendar-year-month">
+                    <span class="calendar-month" id="currentMonth"></span>
+                    <span class="calendar-year" id="currentYear"></span>
+                </div>
+                <span class="calendar-icon">📅</span>
+                <div class="calendar-nav">
+                    <button onclick="changeMonth(-1)">◀ 이전</button>
+                    <button onclick="changeMonth(1)">다음 ▶</button>
+                </div>
+            </div>
+
+            <div class="pest-legend">
+                <div class="legend-item">
+                    <div class="legend-box legend-pest"></div>
+                    <span>병해충 주의기간</span>
+                </div>
+            </div>
+
+            <div class="calendar-main">
+                <div class="calendar-grid-wrapper">
+                    <div class="calendar-weekdays">
+                        <div class="calendar-weekday sunday">일</div>
+                        <div class="calendar-weekday">월</div>
+                        <div class="calendar-weekday">화</div>
+                        <div class="calendar-weekday">수</div>
+                        <div class="calendar-weekday">목</div>
+                        <div class="calendar-weekday">금</div>
+                        <div class="calendar-weekday saturday">토</div>
+                    </div>
+                    <div class="calendar-days" id="calendarDays"></div>
+                </div>
+
+                <div class="calendar-memo">
+                    <h3>메모/일정</h3>
+                    <div class="memo-line"></div>
+                    <div class="memo-line"></div>
+                    <div class="memo-line"></div>
+                    <div class="memo-line"></div>
+                    <div class="memo-line"></div>
+                    <div class="memo-line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentDate = new Date();
+
+        // 병해충 주의기간 설정 (예시)
+        const pestWarningPeriods = [
+            { start: '2025-01-15', end: '2025-01-25', name: '온실가루이 주의' },
+            { start: '2025-02-01', end: '2025-02-10', name: '응애류 주의' },
+            { start: '2025-10-10', end: '2025-10-20', name: '진딧물 주의' },
+            // 원하는 기간을 추가하세요
+        ];
+
+        function isPestWarningDay(year, month, day) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+            for (let period of pestWarningPeriods) {
+                if (dateStr >= period.start && dateStr <= period.end) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            const monthNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+            document.getElementById('currentMonth').textContent = monthNames[month] + '월';
+            document.getElementById('currentYear').textContent = year + '년';
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const prevLastDay = new Date(year, month, 0);
+
+            const firstDayOfWeek = firstDay.getDay();
+            const lastDate = lastDay.getDate();
+            const prevLastDate = prevLastDay.getDate();
+
+            let daysHTML = '';
+
+            for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+                const dayNum = prevLastDate - i;
+                daysHTML += `<div class="calendar-day other-month"><span class="day-number">${dayNum}</span></div>`;
+            }
+
+            const today = new Date();
+            for (let day = 1; day <= lastDate; day++) {
+                const date = new Date(year, month, day);
+                const dayOfWeek = date.getDay();
+                const isToday = day === today.getDate() &&
+                               month === today.getMonth() &&
+                               year === today.getFullYear();
+                const isPestDay = isPestWarningDay(year, month, day);
+
+                let classes = 'calendar-day';
+                if (isToday) classes += ' today';
+                if (dayOfWeek === 0) classes += ' sunday';
+                if (dayOfWeek === 6) classes += ' saturday';
+                if (isPestDay) classes += ' pest-warning';
+
+                daysHTML += `<div class="${classes}"><span class="day-number">${day}</span></div>`;
+            }
+
+            const totalCells = firstDayOfWeek + lastDate;
+            const remainingCells = (7 - (totalCells % 7)) % 7;
+            for (let day = 1; day <= remainingCells; day++) {
+                daysHTML += `<div class="calendar-day other-month"><span class="day-number">${day}</span></div>`;
+            }
+
+            document.getElementById('calendarDays').innerHTML = daysHTML;
+        }
+
+        function changeMonth(direction) {
+            currentDate.setMonth(currentDate.getMonth() + direction);
+            renderCalendar();
+        }
+
+        renderCalendar();
+    </script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - KOAT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .login-header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .login-header .subtitle {
+            font-size: 14px;
+            opacity: 0.95;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .login-body {
+            padding: 40px 30px;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .login-description {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .error-message {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .error-message strong {
+            display: block;
+            color: #c62828;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .error-message div {
+            color: #d32f2f;
+            font-size: 13px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .login-footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .login-footer p {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .login-footer a {
+            color: #4caf50;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .info-box {
+            background: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .info-box p {
+            font-size: 13px;
+            color: #2e7d32;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 480px) {
+            .login-header h1 {
+                font-size: 18px;
+            }
+
+            .login-body {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>자율실증기업 대상<br>맞춤형 실증지원 프로그램</h1>
+            <p class="subtitle">with KOAT</p>
+        </div>
+
+        <div class="login-body">
+            <h2 class="login-title">로그인</h2>
+            <p class="login-description">시스템 접속을 위해 로그인해주세요</p>
+
+            <form method="post" action="{% url 'single_pages:login' %}">
+                {% csrf_token %}
+
+                <!-- 에러 메시지 영역 -->
+                {% if form.errors %}
+                <div class="error-message">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                        <div>
+                            <strong>{{ field.label }}</strong>
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                    <div>
+                        <strong>{{ error }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="username">사용자 ID</label>
+                    <input type="text" name="username" id="username" placeholder="아이디를 입력하세요" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요" required>
+                </div>
+
+                <button type="submit" class="btn-login">로그인</button>
+
+                <div class="info-box">
+                    <p>💡 계정이 없으신가요? 담당자에게 문의하여 계정을 발급받으세요.</p>
+                </div>
+            </form>
+        </div>
+
+        <div class="login-footer">
+            <p>JBNU X KOAT</p>
+        </div>
+    </div>
+</body>
+</html>
