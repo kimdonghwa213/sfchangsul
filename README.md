@@ -9,10 +9,12 @@
 <img width="1280" height="608" alt="image" src="https://github.com/user-attachments/assets/d859f26e-35f9-482a-8d20-a5b9d5fb29bd" />
 # 기능 2 : 맞춤형 재배 전문 Q&A 챗봇 #
 농업 전문 매뉴얼 분석 LLM + RAG 기반 재배 Q&A 제공
+https://github.com/gunwokimm/koat
 <img width="1280" height="608" alt="image" src="https://github.com/user-attachments/assets/a9d0b2a1-f58c-4ad9-913f-ada345eb3c83" />
 <img width="1280" height="608" alt="image" src="https://github.com/user-attachments/assets/83c405c5-aa46-4eab-a3ae-9277f520bc5a" />
 # 기능 3 : 온실 미기후 예측 & 알람 #
 실증온실 내 온 ∙ 습도 예측, 이상 발생 시 문자 알람
+https://github.com/farmerkim/greenhouse_t_h_predit
 <img width="1280" height="608" alt="image" src="https://github.com/user-attachments/assets/2918d879-a1dd-4f11-b242-b26a6856db13" />
 <img width="1280" height="608" alt="image" src="https://github.com/user-attachments/assets/5daf236b-67fa-4e86-89ec-4866271761e6" />
 <img width="1280" height="608" alt="image" src="https://github.com/user-attachments/assets/642f9f9a-694d-44cb-8e8d-3b0d5e3c5aa5" />
