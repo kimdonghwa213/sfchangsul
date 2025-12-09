@@ -1,0 +1,221 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율실증기업 대상 맞춤형 실증지원 프로그램</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #c8e6c9 100%);
+            padding: 120px 20px 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header .subtitle {
+            font-size: 20px;
+            color: #4caf50;
+        }
+
+        .regions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 0;
+        }
+
+        .region-card {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .region-card:hover {
+            transform: scale(1.02);
+        }
+
+        .region-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        .region-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .region-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .region-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .region-title {
+            font-size: 38px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .region-subtitle {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .region-en {
+            font-size: 14px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 3px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn:hover {
+            background: white;
+            color: #333;
+        }
+
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .regions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'single_pages/css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'single_pages/bootstrap/bootstrap.min.css' %}" media="screen">
+<body>
+<!-- 네비게이션바 -->
+{% include "single_pages/navbar.html" %}
+<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+{% block content %}
+{% endblock %}
+    <div class="header">
+        <h1>실증기업 대상 실증지원 프로그램</h1>
+        <p class="subtitle">with KOAT</p>
+    </div>
+
+    <div class="regions">
+        <div class="region-card" style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.8), rgba(46, 125, 50, 0.9));">
+            <img src="{% static 'single_pages/images/pic1.jpg' %}" alt="온실" class="region-bg">
+            <div class="region-content">
+                <div>
+                    <div class="region-icon">🌱</div>
+                    <div class="region-title">온실 현황</div>
+                    <div class="region-subtitle">스마트팜 혁신밸리</div>
+                </div>
+                <div>
+                    <div class="buttons">
+                        <a href="/about_me/" class="btn btn-primary">바로가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="region-card" style="background: linear-gradient(135deg, rgba(239, 83, 80, 0.8), rgba(198, 40, 40, 0.9));">
+            <img src="{% static 'single_pages/images/pic2.jpg' %}" class="region-bg">
+            <div class="region-content">
+                <div>
+                    <div class="region-icon">🍓</div>
+                    <div class="region-title">유니코 AI</div>
+                    <div class="region-subtitle">스마트팜 혁신밸리</div>
+                </div>
+                <div>
+                    <div class="buttons">
+                        <a href="http://localhost:8501/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">바로가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="region-card" style="background: linear-gradient(135deg, rgba(66, 165, 245, 0.8), rgba(25, 118, 210, 0.9));">
+            <img src="{% static 'single_pages/images/pic3.jpg' %}" class="region-bg">
+            <div class="region-content">
+                <div>
+                    <div class="region-icon">⛅</div>
+                    <div class="region-title">온실 기상 예측 서비스</div>
+                    <div class="region-subtitle">스마트팜 혁신밸리</div>
+                </div>
+                <div>
+                    <div class="buttons">
+                        <a href="http://localhost:8502/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">바로가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
